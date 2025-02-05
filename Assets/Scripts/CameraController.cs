@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
     public float sensitivity = 2f; 
     public float zoomSpeed = 10f;  
     public float minZoom = 5f;     
-    public float maxZoom = 50f;    
+    public float maxZoom = 500f;    
 
     private bool isDragging = false;
     private Vector3 lastMousePosition;
@@ -49,8 +49,9 @@ public class CameraController : MonoBehaviour
             Vector3 zoomDirection = transform.forward * scroll * zoomSpeed;
             Vector3 newPosition = transform.position + zoomDirection;
 
-            float distance = Vector3.Distance(newPosition, Vector3.zero);
-            if (distance > minZoom && distance < maxZoom)
+            // Ensure the camera does not go beyond minZoom or maxZoom
+            float newDistance = (newPosition - Vector3.zero).magnitude;
+            if (newDistance > minZoom && newDistance < maxZoom)
             {
                 transform.position = newPosition;
             }
